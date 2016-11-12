@@ -1,6 +1,7 @@
 package com.imoon.app.imoonapp.member;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(MemberDTO param) {
+        Log.d("JOIN ID ", param.getId());
+        Log.d("JOIN PWD ", param.getPwd());
+        Log.d("JOIN NAME ", param.getName());
+        Log.d("JOIN EMAIL ", param.getEmail());
+        Log.d("JOIN Phone ", param.getPhone());
+        Log.d("JOIN Addr ", param.getAddr());
 
+
+        dao.insert(param);
     }
 
     @Override
@@ -43,7 +52,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDTO login(MemberDTO param) {
 
-        MemberDTO member = new MemberDTO();
+        Log.d("JOIN ID ", param.getId());
+        Log.d("JOIN PWD ", param.getPwd());
+
+        MemberDTO member = dao.login(param);
         return member;
     }
 

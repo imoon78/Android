@@ -20,7 +20,6 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:gravity="center"
             android:text="ID" />
         <EditText
             android:id="@+id/et_id"
@@ -36,7 +35,6 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:gravity="center"
             android:text="PASSWORD" />
         <EditText
             android:id="@+id/et_password"
@@ -51,7 +49,6 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:gravity="center"
         android:text="NAME" />
     <EditText
         android:id="@+id/et_name"
@@ -67,7 +64,6 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:gravity="center"
         android:text="EMAIL" />
     <EditText
         android:id="@+id/et_email"
@@ -83,7 +79,6 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:gravity="center"
         android:text="PHONE" />
     <EditText
         android:id="@+id/et_phone"
@@ -99,7 +94,6 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     android:layout_width="120dp"
     android:layout_height="wrap_content"
     android:textSize="20dp"
-    android:gravity="center"
     android:text="ADDRESS" />
 <EditText
     android:id="@+id/et_address"
@@ -121,26 +115,5 @@ xmlns:android="http://schemas.android.com/apk/res/android">
             android:layout_height="wrap_content"
             android:text="CANCEL" />
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/et_second"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Second Number"/>
-
-
-    <Button
-        android:id="@+id/bt_equal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="=" />
-    <TextView
-        android:id="@+id/tv_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#ac3c6e"
-        android:textSize="30dp"
-        android:paddingTop="30dp"
-        android:text="Result :"/>
 
 </LinearLayout>
