@@ -25,8 +25,6 @@ public class MemberServiceImpl implements MemberService {
         Log.d("JOIN EMAIL ", param.getEmail());
         Log.d("JOIN Phone ", param.getPhone());
         Log.d("JOIN Addr ", param.getAddr());
-
-
         dao.insert(param);
     }
 
@@ -50,13 +48,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDTO login(MemberDTO param) {
-
-        Log.d("JOIN ID ", param.getId());
-        Log.d("JOIN PWD ", param.getPwd());
-
-        MemberDTO member = dao.login(param);
-        return member;
+    public boolean login(MemberDTO param) {
+        return param.getPwd().equals(dao.login(param).getPwd());
     }
 
     @Override
