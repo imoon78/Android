@@ -12,9 +12,7 @@ import com.imoon.app.imoonapp.member.LoginActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button bt_calc;
-    Button bt_join;
-    Button bt_login;
+    Button bt_calc,bt_join,bt_login;  // ;콜론은 cpu 한번 다니옴
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bt_calc.setOnClickListener(this);
         bt_join.setOnClickListener(this);
         bt_login.setOnClickListener(this);
-
     }
 
     @Override
@@ -40,12 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.startActivity(intent);
                 break;
             case R.id.bt_join:
-                intent = new Intent(this.getApplicationContext(), JoinActivity.class);
-                this.startActivity(intent);
+                Intent intent2 = new Intent(this.getApplicationContext(), JoinActivity.class);
+                this.startActivity(intent2);
                 break;
             case R.id.bt_login:
-                intent = new Intent(this.getApplicationContext(), LoginActivity.class);
-                this.startActivity(intent);
+                Intent intent3 = new Intent(this.getApplicationContext(), LoginActivity.class);
+                this.startActivity(intent3);
                 break;
         }
    }
