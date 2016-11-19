@@ -22,7 +22,9 @@
         <activity android:name=".member.DeleteActivity" />
         <activity android:name=".member.DetailActivity" />
         <activity android:name=".member.ListActivity" />
-        <activity android:name=".member.CountActivity"></activity>
+        <activity android:name=".member.CountActivity" />
+        <activity android:name=".Intro.IntroActivity" />
+        <activity android:name=".intro.IntroActivity"></activity>
     </application>
 
 </manifest>
