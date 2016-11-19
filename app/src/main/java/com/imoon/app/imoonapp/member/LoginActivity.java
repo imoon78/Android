@@ -14,7 +14,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     MemberService service;
     EditText et_id, et_password;
-    Button bt_submit, bt_cancel;
+    Button bt_login, bt_join;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +25,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_id = (EditText) findViewById(R.id.et_id);
         et_password = (EditText) findViewById(R.id.et_password);
 
-        bt_submit = (Button) findViewById(R.id.bt_submit);
-        bt_cancel = (Button) findViewById(R.id.bt_cancel);
-        bt_submit.setOnClickListener(this);
-        bt_cancel.setOnClickListener(this);
+        bt_login = (Button) findViewById(R.id.bt_login);
+        bt_join = (Button) findViewById(R.id.bt_join);
+        bt_login.setOnClickListener(this);
+        bt_join.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_submit:
+            case R.id.bt_login:
                 MemberDTO param = new MemberDTO();
                 String id = et_id.getText().toString();
                 param.setId(id);
@@ -49,7 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this,"로그인실패", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.bt_cancel:
+            case R.id.bt_join:
+                this.startActivity(new Intent(LoginActivity.this, JoinActivity.class));
                 break;
         }
     }

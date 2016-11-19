@@ -99,8 +99,22 @@ public class MemberDAO extends SQLiteOpenHelper {
         return count;
     }
     public MemberDTO selectOne(String id){
-        MemberDTO member = new MemberDTO();
-        return  member;
+        MemberDTO temp = null;
+        String sql = String.format("SELECT %s,%s,%s,%s,%s,%s,%s FROM %s WHERE %s ='%s';",ID, PW, NAME, EMAIL, PHONE,PHOTO, ADDR, TABLE, ID, id);
+        Log.d(sql, "쿼리");
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        if(cursor.moveToNext()){
+            temp = new MemberDTO();
+            temp.setId(cursor.getString(0));
+            temp.setPwd(cursor.getString(1));
+            temp.setName(cursor.getString(2));
+            temp.setEmail(cursor.getString(3));
+            temp.setPhone(cursor.getString(4));
+            temp.setPhoto(cursor.getString(5));
+            temp.setAddr(cursor.getString(6));
+        }
+        return  temp;
     }
     public ArrayList<MemberDTO> selectList(){
         String sql =  "SELECT "+String.format("%s,%s,%s,%s,%s,%s,%s",ID, PW, NAME, EMAIL, PHONE,PHOTO, ADDR)+" FROM member;";
@@ -140,9 +154,20 @@ public class MemberDAO extends SQLiteOpenHelper {
         return  member;
     }
     public void update(MemberDTO param){
-
+        String sql = String.format(
+                "UPDATE member " +
+                        "SET pw='%s',email='%s',phone='%s',photo='%s',addr='%s' " +
+                        "WHERE id = '%s';"
+                ,param.getPwd(),param.getEmail(),param.getPhone(),param.getPhoto(),param.getAddr(),param.getId()
+        );
+        Log.d(sql,"업데이트 쿼리");
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
     }
-    public void delete(MemberDTO param){
-
+    public void delete(String id){
+        String sql = String.format("DELETE FROM %s WHERE id='%s';", TABLE, id);
+        Log.d(sql,"삭제 쿼리");
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
     }
 }

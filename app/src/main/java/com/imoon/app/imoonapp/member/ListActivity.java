@@ -1,7 +1,9 @@
 package com.imoon.app.imoonapp.member;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity {
     MemberService service;
     ListView lv_member;
+    final String[] arr = new String[1];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +49,26 @@ public class ListActivity extends AppCompatActivity {
                 Object o = lv_member.getItemAtPosition(i);
                 MemberDTO member = (MemberDTO) o;
                 Toast.makeText(ListActivity.this,"삭제할 이름"+member.getName(), Toast.LENGTH_SHORT).show();
-                return false;
+                arr[0] = member.getId();
+                new AlertDialog.Builder(ListActivity.this)
+                        .setTitle("삭제OK")
+                        .setMessage("정말 삭제하시겠습니까?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 삭제코드
+                                service.delete(arr[0]);
+                                startActivity(new Intent(ListActivity.this, ListActivity.class));
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 취소코드
+                            }
+                        }).show();
+                return true;
             }
         });
-
     }
 }

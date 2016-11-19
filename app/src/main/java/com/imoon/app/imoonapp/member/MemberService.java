@@ -13,5 +13,5 @@ public interface MemberService {
     public ArrayList<MemberDTO> list();
     public boolean login(MemberDTO param);
     public void update(MemberDTO param);
-    public void delete(MemberDTO param);
+    public void delete(String id);
 }

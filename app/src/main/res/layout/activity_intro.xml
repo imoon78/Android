@@ -47,7 +47,7 @@
             android:layout_gravity="center"
             android:textStyle="bold"/>
         <Button
-            android:id="@+id/regist_btn"
+            android:id="@+id/bt_regist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="한 달 무료 이용 신청"
