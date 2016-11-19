@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ArrayList<MemberDTO> list() {
         ArrayList<MemberDTO> list = new ArrayList<MemberDTO>();
-        return list;
+        return dao.selectList();
     }
 
     @Override

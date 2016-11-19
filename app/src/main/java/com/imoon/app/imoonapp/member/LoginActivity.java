@@ -1,5 +1,6 @@
 package com.imoon.app.imoonapp.member;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,10 +36,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.bt_submit:
                 MemberDTO param = new MemberDTO();
-                param.setId(et_id.getText().toString());
+                String id = et_id.getText().toString();
+                param.setId(id);
+
                 param.setPwd(et_password.getText().toString());
                 if(service.login(param)){
                     Toast.makeText(LoginActivity.this,"로그인성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                    intent.putExtra("id", id);
+                    this.startActivity(intent);
                 }else{
                     Toast.makeText(LoginActivity.this,"로그인실패", Toast.LENGTH_SHORT).show();
                 }
