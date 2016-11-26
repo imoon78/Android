@@ -24,11 +24,9 @@ import static com.imoon.app.imoonapp.global.Member.TABLE;
 public class MemberDAO extends SQLiteOpenHelper {
 
     public MemberDAO(Context context) {
-        super(context, "imoon2.db", null, 1); // param 두번째 Factory값은 null : 시스템꺼 쓰지않고 만들어 씀
-        this.getWritableDatabase();     //DB 만들어짐
-
+        super(context, "imoon2.db", null, 1);     // param 두번째 Factory값은 null : 시스템꺼 쓰지않고 만들어 씀
+        this.getWritableDatabase();                 //DB 만들어짐
         Log.d("DB생성","성공");
-
     }
 
     @Override
@@ -67,14 +65,12 @@ public class MemberDAO extends SQLiteOpenHelper {
                 +", "+ PW +", "+ NAME +", "+ EMAIL +", " + PHONE +", " + PHOTO + "," + ADDR +")\n"
                 + "VALUES('imoon5', '1', 'jsmoon5', 'imoon5@test.com', '010-123-1235', 'default.jpg','서울');");
 
+        db.close();
         Log.d("테이블생성","성공");
-
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
@@ -82,26 +78,28 @@ public class MemberDAO extends SQLiteOpenHelper {
     }
 
     public void insert(MemberDTO param){
-
-        Log.d("DAO JOIN ID ", param.getId());
-        Log.d("DAO JOIN PWD ", param.getPwd());
-        Log.d("DAO JOIN NAME ", param.getName());
-        Log.d("DAO JOIN EMAIL ", param.getEmail());
-        Log.d("DAO JOIN Phone ", param.getPhone());
-        Log.d("DAO JOIN Addr ", param.getAddr());
-
-        String sql = "";
+        String sql = String.format(
+                "INSERT INTO member (id, pw, name, email, phone, photo, addr) " +
+                        "VALUES('%s','%s','%s','%s','%s','%s','%s');", param.getId(), param.getPwd(), param.getName(), param.getEmail(), param.getPhone(), param.getAddr());
+        Log.d(sql,"[쿼리] insert");
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
+        db.close();
     }
     public int selectCount(){
         int count = 0;
+        String sql = String.format("SELECT COUNT(*) AS count FROM member;");
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        if(cursor.moveToNext()){
+            count = cursor.getInt(cursor.getColumnIndex("count"));
+        }
         return count;
     }
     public MemberDTO selectOne(String id){
         MemberDTO temp = null;
-        String sql = String.format("SELECT %s,%s,%s,%s,%s,%s,%s FROM %s WHERE %s ='%s';",ID, PW, NAME, EMAIL, PHONE,PHOTO, ADDR, TABLE, ID, id);
-        Log.d(sql, "쿼리");
+        String sql = String.format("SELECT id,pw,name,email,phone,photo,addr FROM member WHERE id ='%s';", id);
+        Log.d(sql, "[퀴리] selectOne");
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         if(cursor.moveToNext()){
@@ -116,8 +114,36 @@ public class MemberDAO extends SQLiteOpenHelper {
         }
         return  temp;
     }
+
+    public ArrayList<MemberDTO> findBy(MemberDTO param){
+        String sql = String.format("SELECT id,pw,name,email,phone,photo,addr " +
+                "FROM member WHERE id = '%s'", param.getId());
+        Log.d(sql, "[퀴리] findBy");
+
+        ArrayList<MemberDTO> list = new ArrayList<MemberDTO>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        if(cursor != null){
+            Log.d("findBy Result :","EXIST");
+            cursor.moveToFirst();
+        }
+        do{
+            MemberDTO dto = new MemberDTO();
+            dto.setId(cursor.getString(0));
+            dto.setPwd(cursor.getString(1));
+            dto.setName(cursor.getString(2));
+            dto.setEmail(cursor.getString(3));
+            dto.setPhone(cursor.getString(4));
+            dto.setAddr(cursor.getString(5));
+            list.add(dto);
+        }while (cursor.moveToNext());
+
+        return list;
+    }
+
     public ArrayList<MemberDTO> selectList(){
-        String sql =  "SELECT "+String.format("%s,%s,%s,%s,%s,%s,%s",ID, PW, NAME, EMAIL, PHONE,PHOTO, ADDR)+" FROM member;";
+        String sql =  String.format("SELECT id,pw,name,email,phone,photo,addr FROM member;");
+        Log.d(sql,"[쿼리] selectList");
         ArrayList<MemberDTO> list = new ArrayList<MemberDTO>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
@@ -139,11 +165,10 @@ public class MemberDAO extends SQLiteOpenHelper {
         return  list;
     }
     public MemberDTO login(MemberDTO param){
-        Log.d("DAO LOGIN ID ", param.getId());
-        Log.d("DAO LOGIN PWD ", param.getPwd());
 
-        String sql = "SELECT "+ PW+
-                " FROM " + TABLE+" WHERE id = '"+ param.getId() +"';";
+        String sql = String.format("SELECT pw FROM member WHERE id = '%s';", param.getId());
+        Log.d(sql,"[쿼리] login");
+
         MemberDTO member = new MemberDTO();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
@@ -160,13 +185,13 @@ public class MemberDAO extends SQLiteOpenHelper {
                         "WHERE id = '%s';"
                 ,param.getPwd(),param.getEmail(),param.getPhone(),param.getPhoto(),param.getAddr(),param.getId()
         );
-        Log.d(sql,"업데이트 쿼리");
+        Log.d(sql,"[쿼리] update");
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
     }
     public void delete(String id){
-        String sql = String.format("DELETE FROM %s WHERE id='%s';", TABLE, id);
-        Log.d(sql,"삭제 쿼리");
+        String sql = String.format("DELETE FROM member WHERE id='%s';", id);
+        Log.d(sql,"[쿼리] delete");
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
     }
