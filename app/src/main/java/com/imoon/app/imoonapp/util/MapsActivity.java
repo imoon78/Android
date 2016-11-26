@@ -1,7 +1,9 @@
 package com.imoon.app.imoonapp.util;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,10 +40,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Intent intent = getIntent();
+        String pos = intent.getExtras().getString("pos");
+        Log.d("디테일에서 넘어온 좌표",pos);
+
+        String[] temp = pos.split(",");
+        double lat = Double.parseDouble(temp[0]);
+        double lng = Double.parseDouble(temp[1]);
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //LatLng sydney = new LatLng(-34, 151);
+        LatLng position = new LatLng(lat, lng);
+
+        mMap.addMarker(new MarkerOptions().position(position).title("서울역"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16));
     }
 }

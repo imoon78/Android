@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imoon.app.imoonapp.R;
+import com.imoon.app.imoonapp.util.MapsActivity;
 import com.imoon.app.imoonapp.util.Phone;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,6 +65,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.bt_call:
                 Log.d("전화번호출력:","OK");
@@ -73,7 +75,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.bt_message:break;
             case R.id.bt_movie:break;
             case R.id.bt_update:
-                Intent intent = new Intent(DetailActivity.this, UpdateActivity.class);
+                intent = new Intent(DetailActivity.this, UpdateActivity.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
                 break;
@@ -82,7 +84,13 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.bt_map:
                 Log.d("구글맵 클릭", "OK");
-
+                intent = new Intent(DetailActivity.this, MapsActivity.class);
+                // 원래 주소 -> 위경로로 바꿔져야 함. (시청역 : 37.5665893,126.9785535)
+                String pos = member.getAddr();
+                // 주소를 위경로로 변경 로직 들어 가야함
+                pos = "37.5665893,126.9785535";
+                intent.putExtra("pos", pos);
+                startActivity(intent);
                 break;
         }
     }
