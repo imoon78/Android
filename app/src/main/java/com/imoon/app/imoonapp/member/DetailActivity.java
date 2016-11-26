@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imoon.app.imoonapp.R;
+import com.imoon.app.imoonapp.util.Phone;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
     MemberService service;
@@ -17,6 +18,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     TextView tv_name, tv_id, tv_email,tv_phone,tv_address, tv_pw;
     Button bt_call,bt_message,bt_movie,bt_update,bt_list,bt_map;
     String id;
+    Phone phone;
+    MemberDTO member;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         tv_pw = (TextView) findViewById(R.id.tv_password);
 
         id = this.getIntent().getExtras().getString("id");
-        MemberDTO member = service.detail(id);
+        member = service.detail(id);
         if(member != null){
             tv_name.setText(member.getName());
             tv_id.setText(member.getId());
@@ -57,14 +60,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         bt_update.setOnClickListener(this);
         bt_list.setOnClickListener(this);
         bt_map.setOnClickListener(this);
-
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bt_call:break;
+            case R.id.bt_call:
+                Log.d("전화번호출력:","OK");
+                phone = new Phone(this, this);
+                phone.directCall(member.getPhone());
+                break;
             case R.id.bt_message:break;
             case R.id.bt_movie:break;
             case R.id.bt_update:
@@ -75,7 +80,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.bt_list:
                 startActivity(new Intent(DetailActivity.this, UpdateActivity.class));
                 break;
-            case R.id.bt_map:break;
+            case R.id.bt_map:
+                Log.d("구글맵 클릭", "OK");
+
+                break;
         }
     }
 }
