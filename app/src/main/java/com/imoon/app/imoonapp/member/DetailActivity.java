@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.imoon.app.imoonapp.R;
 import com.imoon.app.imoonapp.util.MapsActivity;
 import com.imoon.app.imoonapp.util.Phone;
+import com.imoon.app.imoonapp.util.WebActivity;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
     MemberService service;
@@ -73,7 +74,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 phone.directCall(member.getPhone());
                 break;
             case R.id.bt_message:break;
-            case R.id.bt_movie:break;
+            case R.id.bt_movie:
+                intent = new Intent(DetailActivity.this, WebActivity.class);
+                startActivity(intent);
+                break;
             case R.id.bt_update:
                 intent = new Intent(DetailActivity.this, UpdateActivity.class);
                 intent.putExtra("id", id);
