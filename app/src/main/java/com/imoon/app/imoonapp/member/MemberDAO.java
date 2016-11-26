@@ -16,6 +16,11 @@ import static com.imoon.app.imoonapp.global.Member.PHONE;
 import static com.imoon.app.imoonapp.global.Member.PHOTO;
 import static com.imoon.app.imoonapp.global.Member.PW;
 import static com.imoon.app.imoonapp.global.Member.TABLE;
+import static com.imoon.app.imoonapp.global.Message.CONTENT;
+import static com.imoon.app.imoonapp.global.Message.MESSAGE;
+import static com.imoon.app.imoonapp.global.Message.RECEIVER;
+import static com.imoon.app.imoonapp.global.Message.SENDER;
+import static com.imoon.app.imoonapp.global.Message.WRITE_TIME;
 
 /**
  * Created by 1027 on 2016-11-12.
@@ -24,7 +29,7 @@ import static com.imoon.app.imoonapp.global.Member.TABLE;
 public class MemberDAO extends SQLiteOpenHelper {
 
     public MemberDAO(Context context) {
-        super(context, "imoon2.db", null, 1);     // param 두번째 Factory값은 null : 시스템꺼 쓰지않고 만들어 씀
+        super(context, "imoon5.db", null, 1);     // param 두번째 Factory값은 null : 시스템꺼 쓰지않고 만들어 씀
         this.getWritableDatabase();                 //DB 만들어짐
         Log.d("DB생성","성공");
     }
@@ -35,14 +40,23 @@ public class MemberDAO extends SQLiteOpenHelper {
         //테이블 생성
         db.execSQL("CREATE TABLE IF NOT EXISTS " +TABLE+ "\n" +
                 "(\n" +
-                ID+ " text primary key,\n" +
-                PW + " text,\n" +
-                NAME + " text,\n" +
-                EMAIL + " text,\n" +
-                PHONE + " text,\n" +
-                PHOTO + " text,\n" +
-                ADDR + " text );");
+                ID+ " TEXT PRIMARY KEY,\n" +
+                PW + " TEXT,\n" +
+                NAME + " TEXT,\n" +
+                EMAIL + " TEXT,\n" +
+                PHONE + " TEXT,\n" +
+                PHOTO + " TEXT,\n" +
+                ADDR + " TEXT );");
 
+        db.execSQL(
+                String.format("CREATE TABLE IF NOT EXISTS %s(" +
+                        "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
+                        "%s TEXT, " +
+                        "%s TEXT, CONSTRAINT message_fk FOREIGN KEY(ID) REFERENCES %s(%s));", MESSAGE, SENDER, RECEIVER, WRITE_TIME, CONTENT, ID, TABLE, ID)
+        );
 
         // 임의값 넣기
         db.execSQL("INSERT INTO " + TABLE + "("+ ID
@@ -65,7 +79,20 @@ public class MemberDAO extends SQLiteOpenHelper {
                 +", "+ PW +", "+ NAME +", "+ EMAIL +", " + PHONE +", " + PHOTO + "," + ADDR +")\n"
                 + "VALUES('imoon5', '1', 'jsmoon5', 'imoon5@test.com', '010-123-1235', 'default.jpg','서울');");
 
-        db.close();
+
+        db.execSQL(
+                String.format("INSERT INTO %s(%s, %s, %s, %s,%s) " +
+                        "VALUES('KIM','HONG','2016-11-26 12:05','Hello Hong','imoon1');", MESSAGE, SENDER, RECEIVER, WRITE_TIME, CONTENT,ID)
+        );
+        db.execSQL(
+                String.format("INSERT INTO %s(%s, %s, %s, %s,%s) " +
+                        "VALUES('KIM','HONG','2016-11-26 12:34','Thanks Hong','imoon1');", MESSAGE, SENDER, RECEIVER, WRITE_TIME, CONTENT,ID)
+        );
+        db.execSQL(
+                String.format("INSERT INTO %s(%s, %s, %s, %s,%s) " +
+                        "VALUES('KIM','HONG','2016-11-26 12:50','Bye Hong','imoon1');", MESSAGE, SENDER, RECEIVER, WRITE_TIME, CONTENT,ID)
+        );
+
         Log.d("테이블생성","성공");
     }
 
